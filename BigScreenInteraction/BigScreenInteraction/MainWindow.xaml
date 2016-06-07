@@ -5,9 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BigScreenInteraction"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="208,154,0,0" VerticalAlignment="Top" Width="75" Click="click"/>
-
+        Title="MainWindow"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True"  WindowStyle="None" Background="{x:Null}"  AllowsTransparency="true" WindowState="Maximized" >
+    <Grid Height="600" Width="800" >
+        <UniformGrid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="30" Columns="3" Rows="3" Name="ButtonGird" Background="White">
+            <UniformGrid.Resources>
+                <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="15,10,15,10"/>
+                    <Setter Property="Background" Value="#FF200D6A"/>
+                </Style>
+            </UniformGrid.Resources>
+            <!--这里是启动界面，从这里添加需要启动的程序按钮-->
+            <!--启动3d地图-->
+            <Button Style="{StaticResource ButtonStyle}" Click="Map_3D" >
+                <Image Source="pictures/button/map_3d.jpg" Stretch="Fill"/>
+            </Button>
+            <!--启动2d地图-->
+            <Button Style="{StaticResource ButtonStyle}" Click="Map_2D" >
+                <Image Source="pictures/button/map_2d.jpg" Stretch="Fill"/>
+            </Button>
+            <!--启动姿势识别程序-->
+            <Button Style="{StaticResource ButtonStyle}" Click="PostureButtonClick">
+                <Image Source="pictures/button/Posture.png" Stretch="Fill" />
+            </Button>
+            <!--启动动作识别程序-->
+            <Button Style="{StaticResource ButtonStyle}" Click="GestureButtonClick" >
+                <Image Source="pictures/button/Gest.png" Stretch="Fill" />
+            </Button>
+            <Button Style="{StaticResource ButtonStyle}">
+            </Button>
+            <Button Style="{StaticResource ButtonStyle}">
+            </Button>
+            <Button Style="{StaticResource ButtonStyle}">Button7</Button>
+            <Button Style="{StaticResource ButtonStyle}">Button8</Button>
+            <Button Style="{StaticResource ButtonStyle}" Click="ExitClick">
+                <Image Source="pictures/button/LOGO.png" Stretch="Fill" />
+            </Button>
+        </UniformGrid>
     </Grid>
 </Window>
