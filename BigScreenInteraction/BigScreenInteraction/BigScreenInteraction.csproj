@@ -57,6 +57,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Control\Block.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\LoadingAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -65,6 +73,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Control\Block.xaml.cs" />
+    <Compile Include="Control\LoadingAnimation.xaml.cs" />
     <Compile Include="KinectControl.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -115,6 +125,26 @@
   <ItemGroup>
     <Resource Include="pictures\button\Gest.png" />
     <Resource Include="pictures\button\Posture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pictures\gestures\Caret.png" />
+    <Resource Include="pictures\gestures\Check.png" />
+    <Resource Include="pictures\gestures\Circle.png" />
+    <Resource Include="pictures\gestures\Delete.png" />
+    <Resource Include="pictures\gestures\Lightning.png" />
+    <Resource Include="pictures\gestures\Pigtail.png" />
+    <Resource Include="pictures\gestures\Question_mark.png" />
+    <Resource Include="pictures\gestures\Rectangle.png" />
+    <Resource Include="pictures\gestures\Triangle.png" />
+    <Resource Include="pictures\gestures\X.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pictures\postures\0.png" />
+    <Resource Include="pictures\postures\1.png" />
+    <Resource Include="pictures\postures\2.png" />
+    <Resource Include="pictures\postures\3.png" />
+    <Resource Include="pictures\postures\4.png" />
+    <Resource Include="pictures\postures\5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BigScreenInteraction"
+        xmlns:control="clr-namespace:LoadingControl.Control"
         mc:Ignorable="d"
-        Title="MainWindow"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True"  WindowStyle="None" Background="{x:Null}"  AllowsTransparency="true" WindowState="Maximized" >
-    <Grid Height="600" Width="800" >
-        <UniformGrid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="30" Columns="3" Rows="3" Name="ButtonGird" Background="White">
+        Title="MainWindow" Height="800" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True"  WindowStyle="None" Background="{x:Null}"  AllowsTransparency="true" WindowState="Maximized" >
+    <Grid Height="800" Width="1000" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <UniformGrid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="60,120" Columns="3" Rows="3" Name="ButtonGird" Background="White">
             <UniformGrid.Resources>
                 <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
                     <Setter Property="Margin" Value="15,10,15,10"/>
@@ -41,5 +42,64 @@
                 <Image Source="pictures/button/LOGO.png" Stretch="Fill" />
             </Button>
         </UniformGrid>
+
+        <Grid Name="GestrureDisplayGrid" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <UniformGrid Columns="10" Rows="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20" Background="White">
+                <Grid Margin="10">
+                    <Image Source="pictures/gestures/Caret.png" Height="50" Width="64" Stretch="UniformToFill" />
+                </Grid>
+                <Grid  Margin="10">
+                    <Image Source="pictures/gestures/Check.png" Height="50" Width="64" Stretch="UniformToFill" />
+                </Grid>
+                <Grid  Margin="10">
+                    <Image Source="pictures/gestures/Circle.png"  Height="50" Width="64" Stretch="UniformToFill"/>
+                </Grid>
+                <Grid  Margin="10">
+                    <Image Source="pictures/gestures/Delete.png" Height="50" Width="64" Stretch="UniformToFill" />
+                </Grid>
+                <Grid  Margin="10">
+                    <Image Source="pictures/gestures/Lightning.png"  Height="50" Width="64" Stretch="UniformToFill"/>
+                </Grid>
+                <Grid  Margin="10">
+                    <Image Source="pictures/gestures/Pigtail.png" Height="50" Width="64" Stretch="UniformToFill" />
+                </Grid>
+                <Grid  Margin="10">
+                    <Image Source="pictures/gestures/Question_mark.png"  Height="50" Width="64" Stretch="UniformToFill"/>
+                </Grid>
+                <Grid  Margin="10">
+                    <Image Source="pictures/gestures/Rectangle.png"  Height="50" Width="64" Stretch="UniformToFill"/>
+                </Grid>
+                <Grid  Margin="10">
+                    <Image Source="pictures/gestures/Triangle.png"  Height="50" Width="64" Stretch="UniformToFill"/>
+                </Grid>
+                <Grid  Margin="10">
+                    <Image Source="pictures/gestures/X.png" Height="50" Width="64" Stretch="UniformToFill" />
+                </Grid>
+            </UniformGrid>
+        </Grid>
+
+        <Grid Name="PostureDisplayGrid" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <UniformGrid Columns="6" Rows="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20" Background="White">
+                <Grid Margin="10">
+                    <Image Source="pictures/postures/0.png" Height="90" Width="64" Stretch="UniformToFill" />
+                </Grid>
+                <Grid Margin="10">
+                    <Image Source="pictures/postures/1.png" Height="90" Width="64" Stretch="UniformToFill" />
+                </Grid>
+                <Grid Margin="10">
+                    <Image Source="pictures/postures/2.png" Height="90" Width="64" Stretch="UniformToFill" />
+                </Grid>
+                <Grid Margin="10">
+                    <Image Source="pictures/postures/3.png" Height="90" Width="64" Stretch="UniformToFill"/>
+                </Grid>
+                <Grid Margin="10">
+                    <Image Source="pictures/postures/4.png" Height="90" Width="64" Stretch="UniformToFill" />
+                </Grid>
+                <Grid Margin="10">
+                    <Image Source="pictures/postures/5.png" Height="90" Width="64" Stretch="UniformToFill"/>
+                </Grid>
+            </UniformGrid>
+        </Grid>
+        <control:LoadingAnimation Grid.ZIndex="1" x:Name="Loaded_animation" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="250" Width="250" />
     </Grid>
 </Window>
