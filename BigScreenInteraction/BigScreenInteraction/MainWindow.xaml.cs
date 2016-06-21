@@ -16,8 +16,6 @@ namespace BigScreenInteraction
         {
             InitializeComponent();
         }
-
-
         //启动手势识别界面
         private void GestureButtonClick(object sender, RoutedEventArgs e)
         {
@@ -25,7 +23,6 @@ namespace BigScreenInteraction
             //GestrureDisplayGrid.Visibility = Visibility.Visible;
             //GestureImage.Source = null;
         }
-
         //启动姿势识别界面 
         private void PostureButtonClick(object sender, RoutedEventArgs e)
         {
@@ -33,13 +30,11 @@ namespace BigScreenInteraction
             //PostureDisplayGrid.Visibility = Visibility.Visible;
             //PostureImage.Source = null;
         }
-
         //离开按钮
         private void ExitClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown(0);
         }
-
         //用于设置程序始终在最上层
         public void setFullScreen(object sender, EventArgs e)
         {
@@ -66,13 +61,13 @@ namespace BigScreenInteraction
             ButtonGird.Visibility = Visibility.Collapsed;
             try
             {
-
                 //_WBFramework._GRRecognizer.TUIO_MOUSE = true;
                 var notepad = ConfigurationManager.AppSettings["notepad"];
                 ProcessHandler.process2 = Process.Start(notepad);
-
             }
-            catch { }
+            catch
+            {
+            }
         }
     }
 

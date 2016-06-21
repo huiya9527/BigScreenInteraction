@@ -265,7 +265,6 @@ namespace BigScreenInteraction
                     wheeldy = beforeHands.primeHandy;
                 }
                 int dy = nowHand.primeHandy - wheeldy;
-                //Console.WriteLine(dy);
                 MouseRoll(dy);
             }
         }
@@ -273,7 +272,7 @@ namespace BigScreenInteraction
         class HandsState
         {
             private const float TOUCH_REGION = 0.15f;
-            private const float EMBED_REGION = 0.40f;
+            private const float EMBED_REGION = 0.35f;
 
             private HandPositionZ LeftHandPosition;
             private HandPositionZ RightHandPosition;
@@ -297,9 +296,18 @@ namespace BigScreenInteraction
                 CameraSpacePoint handRight = body.Joints[JointType.HandRight].Position;
                 CameraSpacePoint wristLeft = body.Joints[JointType.WristLeft].Position;
                 CameraSpacePoint wristRight = body.Joints[JointType.WristRight].Position;
-
                 spineBase = body.Joints[JointType.SpineBase].Position;
-                primeHandy = (int)(handRight.Y * 100);
+
+                //select wrist
+                if (prime_hand)
+                {
+                    selectHand = wristRight;
+                }
+                else
+                {
+                    selectHand = wristLeft;
+                }
+                primeHandy = (int)(selectHand.Y * 100);
                 //set left hand position
                 if (spineBase.Z - handLeft.Z > EMBED_REGION)
                 {
@@ -358,7 +366,15 @@ namespace BigScreenInteraction
                     {
                         if (SelectHandState == HandState.Closed)
                         {
-                            operation = Operation.left_down;
+                            if (mouse_click_region)
+                            {
+                                operation = Operation.left_down;
+                            }
+                            else
+                            {
+                                operation = Operation.right_down;
+                            }
+                            
                         }
                         else
                         {
@@ -370,7 +386,14 @@ namespace BigScreenInteraction
                     {
                         if (SelectHandState == HandState.Closed)
                         {
-                            operation = Operation.right_down;
+                            if (mouse_click_region)
+                            {
+                                operation = Operation.right_down;
+                            }
+                            else
+                            {
+                                operation = Operation.left_down;
+                            }
                         }
                         else
                         {
@@ -381,17 +404,30 @@ namespace BigScreenInteraction
                 //two hand the prime hand is right
                 else
                 {
-                    //select wrist
-                    selectHand = wristRight;
                     //two hand closed will operate wheel
                     if (LeftHandState == HandState.Closed && RightHandState == HandState.Closed)
                     {
-                        operation = Operation.wheel;
+                        if (middle_button_and_wheel)
+                        {
+                            operation = Operation.wheel;
+                        }
+                        else
+                        {
+                            operation = Operation.middle_down;
+                        }
+                           
                     }
                     //one hand closed 
                     else if (LeftHandState == HandState.Closed || RightHandState == HandState.Closed)
                     {
-                        operation = Operation.middle_down;
+                        if (middle_button_and_wheel)
+                        {
+                            operation = Operation.middle_down;
+                        }
+                        else
+                        {
+                            operation = Operation.wheel;
+                        }
                     }
                     else
                     {

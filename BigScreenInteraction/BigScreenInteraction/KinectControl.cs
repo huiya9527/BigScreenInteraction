@@ -25,44 +25,7 @@ namespace BigScreenInteraction
         /// </summary>
         int screenWidth, screenHeight;
 
-        /// <summary>
-        /// timer for pause-to-click feature
-        /// </summary>
-        DispatcherTimer timer = new DispatcherTimer();
-
-        /// <summary>
-        /// How far the cursor move according to your hand's movement
-        /// </summary>
-        public float mouseSensitivity = MOUSE_SENSITIVITY;
-
-        /// <summary>
-        /// Time required as a pause-clicking
-        /// </summary>
-        public float timeRequired = TIME_REQUIRED;
-        /// <summary>
-        /// The radius range your hand move inside a circle for [timeRequired] seconds would be regarded as a pause-clicking
-        /// </summary>
-        public float pauseThresold = PAUSE_THRESOLD;
-        /// <summary>
-        /// Decide if the user need to do clicks or only move the cursor
-        /// </summary>
-        public bool doClick = DO_CLICK;
-        /// <summary>
-        /// Use Grip gesture to click or not
-        /// </summary>
-        public bool useGripGesture = USE_GRIP_GESTURE;
-        /// <summary>
-        /// Value 0 - 0.95f, the larger it is, the smoother the cursor would move
-        /// </summary>
-        public float cursorSmoothing = CURSOR_SMOOTHING;
-
-        // Default values
-        public const float MOUSE_SENSITIVITY = 3.5f;
-        public const float TIME_REQUIRED = 2f;
-        public const float PAUSE_THRESOLD = 60f;
-        public const bool DO_CLICK = true;
-        public const bool USE_GRIP_GESTURE = true;
-        public const float CURSOR_SMOOTHING = 0.2f;
+        public DollarOneGR _KGr;
 
         Point lastCurPos = new Point(0, 0);
 
@@ -80,6 +43,8 @@ namespace BigScreenInteraction
 
             // open the sensor
             sensor.Open();
+
+            _KGr = new DollarOneGR();
         }
 
 
@@ -121,26 +86,9 @@ namespace BigScreenInteraction
                 if (body.IsTracked)
                 {
                     MouseControl.Mouse_Driver(body);
-
-
+                    _KGr.Add(skdata);
                 }
             }
         }
-
-        public void Close()
-        {
-            if (timer != null)
-            {
-                timer.Stop();
-                timer = null;
-            }
-
-            if (this.sensor != null)
-            {
-                this.sensor.Close();
-                this.sensor = null;
-            }
-        }
-
     }
 }
