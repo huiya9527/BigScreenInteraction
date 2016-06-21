@@ -38,12 +38,12 @@ namespace BigScreenInteraction.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool GripGesture {
+        public bool PrimeHand {
             get {
-                return ((bool)(this["GripGesture"]));
+                return ((bool)(this["PrimeHand"]));
             }
             set {
-                this["GripGesture"] = value;
+                this["PrimeHand"] = value;
             }
         }
         
@@ -62,36 +62,24 @@ namespace BigScreenInteraction.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DoClick {
+        public bool MouseClickRegion {
             get {
-                return ((bool)(this["DoClick"]));
+                return ((bool)(this["MouseClickRegion"]));
             }
             set {
-                this["DoClick"] = value;
+                this["MouseClickRegion"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("60")]
-        public float PauseThresold {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MiddleButtonAndWheel {
             get {
-                return ((float)(this["PauseThresold"]));
+                return ((bool)(this["MiddleButtonAndWheel"]));
             }
             set {
-                this["PauseThresold"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public float PauseToClickTime {
-            get {
-                return ((float)(this["PauseToClickTime"]));
-            }
-            set {
-                this["PauseToClickTime"] = value;
+                this["MiddleButtonAndWheel"] = value;
             }
         }
     }

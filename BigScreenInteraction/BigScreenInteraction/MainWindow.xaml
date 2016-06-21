@@ -43,7 +43,7 @@
             </Button>
         </UniformGrid>
 
-        <Grid Name="GestrureDisplayGrid" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid Name="GestrureDisplayGrid" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
             <UniformGrid Columns="10" Rows="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20" Background="White">
                 <Grid Margin="10">
                     <Image Source="pictures/gestures/Caret.png" Height="50" Width="64" Stretch="UniformToFill" />

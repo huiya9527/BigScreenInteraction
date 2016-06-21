@@ -10,17 +10,11 @@ namespace BigScreenInteraction
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        KinectControl kinectCtrl = new KinectControl();
 
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void click(object sender, RoutedEventArgs e)
-        {
-            MouseControlConfiguration mouseConfig = new MouseControlConfiguration();
-            mouseConfig.Show();
         }
 
 

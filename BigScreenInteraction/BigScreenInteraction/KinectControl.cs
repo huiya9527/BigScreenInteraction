@@ -64,29 +64,7 @@ namespace BigScreenInteraction
         public const bool USE_GRIP_GESTURE = true;
         public const float CURSOR_SMOOTHING = 0.2f;
 
-        /// <summary>
-        /// Determine if we have tracked the hand and used it to move the cursor,
-        /// If false, meaning the user may not lift their hands, we don't get the last hand position and some actions like pause-to-click won't be executed.
-        /// </summary>
-        bool alreadyTrackedPos = false;
-
-        /// <summary>
-        /// for storing the time passed for pause-to-click
-        /// </summary>
-        float timeCount = 0;
-        /// <summary>
-        /// For storing last cursor position
-        /// </summary>
         Point lastCurPos = new Point(0, 0);
-
-        /// <summary>
-        /// If true, user did a left hand Grip gesture
-        /// </summary>
-        bool wasLeftGrip = false;
-        /// <summary>
-        /// If true, user did a right hand Grip gesture
-        /// </summary>
-        bool wasRightGrip = false;
 
         public KinectControl()
         {
@@ -100,51 +78,10 @@ namespace BigScreenInteraction
             screenWidth = (int)SystemParameters.PrimaryScreenWidth;
             screenHeight = (int)SystemParameters.PrimaryScreenHeight;
 
-            // set up timer, execute every 0.1s
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
-            timer.Tick += new EventHandler(Timer_Tick);
-            timer.Start();
-
             // open the sensor
             sensor.Open();
         }
 
-
-
-        /// <summary>
-        /// Pause to click timer
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void Timer_Tick(object sender, EventArgs e)
-        {
-            if (!doClick || useGripGesture) return;
-
-            if (!alreadyTrackedPos)
-            {
-                timeCount = 0;
-                return;
-            }
-
-            Point curPos = MouseControl.GetCursorPosition();
-
-            if ((lastCurPos - curPos).Length < pauseThresold)
-            {
-                if ((timeCount += 0.1f) > timeRequired)
-                {
-                    //MouseControl.MouseLeftDown();
-                    //MouseControl.MouseLeftUp();
-                    MouseControl.DoMouseClick();
-                    timeCount = 0;
-                }
-            }
-            else
-            {
-                timeCount = 0;
-            }
-
-            lastCurPos = curPos;
-        }
 
         /// <summary>
         /// Read body frames
@@ -174,7 +111,6 @@ namespace BigScreenInteraction
 
             if (!dataReceived)
             {
-                alreadyTrackedPos = false;
                 return;
             }
 
@@ -184,88 +120,9 @@ namespace BigScreenInteraction
                 // get first tracked body only, notice there's a break below.
                 if (body.IsTracked)
                 {
-                    // get various skeletal positions
-                    CameraSpacePoint handLeft = body.Joints[JointType.HandLeft].Position;
-                    CameraSpacePoint handRight = body.Joints[JointType.HandRight].Position;
-                    CameraSpacePoint spineBase = body.Joints[JointType.SpineBase].Position;
+                    MouseControl.Mouse_Driver(body);
 
-                    if (handRight.Z - spineBase.Z < -0.15f) // if right hand lift forward
-                    {
-                        /* hand x calculated by this. we don't use shoulder right as a reference cause the shoulder right
-                         * is usually behind the lift right hand, and the position would be inferred and unstable.
-                         * because the spine base is on the left of right hand, we plus 0.05f to make it closer to the right. */
-                        float x = handRight.X - spineBase.X + 0.05f;
-                        /* hand y calculated by this. ss spine base is way lower than right hand, we plus 0.51f to make it
-                         * higer, the value 0.51f is worked out by testing for a several times, you can set it as another one you like. */
-                        float y = spineBase.Y - handRight.Y + 0.51f;
-                        // get current cursor position
-                        Point curPos = MouseControl.GetCursorPosition();
-                        // smoothing for using should be 0 - 0.95f. The way we smooth the cusor is: oldPos + (newPos - oldPos) * smoothValue
-                        float smoothing = 1 - cursorSmoothing;
-                        // set cursor position
-                        MouseControl.SetCursorPos((int)(curPos.X + (x * mouseSensitivity * screenWidth - curPos.X) * smoothing), (int)(curPos.Y + ((y + 0.25f) * mouseSensitivity * screenHeight - curPos.Y) * smoothing));
 
-                        alreadyTrackedPos = true;
-
-                        // Grip gesture
-                        if (doClick && useGripGesture)
-                        {
-                            if (body.HandRightState == HandState.Closed)
-                            {
-                                if (!wasRightGrip)
-                                {
-                                    MouseControl.MouseLeftDown();
-                                    wasRightGrip = true;
-                                }
-                            }
-                            else if (body.HandRightState == HandState.Open)
-                            {
-                                if (wasRightGrip)
-                                {
-                                    MouseControl.MouseLeftUp();
-                                    wasRightGrip = false;
-                                }
-                            }
-                        }
-                    }
-                    else if (handLeft.Z - spineBase.Z < -0.15f) // if left hand lift forward
-                    {
-                        float x = handLeft.X - spineBase.X + 0.3f;
-                        float y = spineBase.Y - handLeft.Y + 0.51f;
-                        Point curPos = MouseControl.GetCursorPosition();
-                        float smoothing = 1 - cursorSmoothing;
-                        MouseControl.SetCursorPos((int)(curPos.X + (x * mouseSensitivity * screenWidth - curPos.X) * smoothing), (int)(curPos.Y + ((y + 0.25f) * mouseSensitivity * screenHeight - curPos.Y) * smoothing));
-                        alreadyTrackedPos = true;
-
-                        if (doClick && useGripGesture)
-                        {
-                            if (body.HandLeftState == HandState.Closed)
-                            {
-                                if (!wasLeftGrip)
-                                {
-                                    MouseControl.MouseLeftDown();
-                                    wasLeftGrip = true;
-                                }
-                            }
-                            else if (body.HandLeftState == HandState.Open)
-                            {
-                                if (wasLeftGrip)
-                                {
-                                    MouseControl.MouseLeftUp();
-                                    wasLeftGrip = false;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        wasLeftGrip = true;
-                        wasRightGrip = true;
-                        alreadyTrackedPos = false;
-                    }
-
-                    // get first tracked body only
-                    break;
                 }
             }
         }
