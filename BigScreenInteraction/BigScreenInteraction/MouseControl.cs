@@ -21,7 +21,13 @@ namespace BigScreenInteraction
         private static HandsState nowHand;
         private static ArrayList HandsStateList = new ArrayList();
 
-        private const int STATE_RECORD_NUM = 5;
+        private static float bx = 0;
+        private static float by = 0;
+        private static float nx = 0;
+        private static float ny = 0;
+        private static bool start = false;
+
+        private const int STATE_RECORD_NUM = 10;
         private static int wheeldy = 0;
 
 
@@ -120,15 +126,14 @@ namespace BigScreenInteraction
 
         private static void move()
         {
-            float dx = nowHand.selectWrist.X - beforeHands.selectWrist.X;
-            float dy = nowHand.selectWrist.Y - beforeHands.selectWrist.Y;
+            float dx = nx - bx;
+            float dy = ny - by;
             // get current cursor position
             Point curPos = MouseControl.GetCursorPosition();
             // smoothing for using should be 0 - 0.95f. The way we smooth the cusor is: oldPos + (newPos - oldPos) * smoothValue
             float smoothing = 1 - cursor_smoothing;
             // set cursor position
-            MouseControl.SetCursorPos((int)(curPos.X + (dx * mouse_sensity * screenWidth - curPos.X) * smoothing), (int)(curPos.Y + (dy * mouse_sensity * screenHeight - curPos.Y) * smoothing));
-
+            MouseControl.SetCursorPos((int)(curPos.X + (dx * mouse_sensity * screenWidth) * smoothing), (int)(curPos.Y - (dy * mouse_sensity * screenHeight) * smoothing));
         }
 
         private static HandsState findState()
@@ -136,12 +141,12 @@ namespace BigScreenInteraction
             Dictionary<Operation, int> dic =
             new Dictionary<Operation, int>();
 
-            for (int i = 0; i < STATE_RECORD_NUM; i++)
+            for (int i = 0; i < HandsStateList.Count; i++)
             {
                 HandsState temp = (HandsState)HandsStateList[i];
                 if (dic.ContainsKey(temp.operation))
                 {
-                    dic.Add(temp.operation, dic[temp.operation] + 1);
+                    dic[temp.operation] += 1;
                 }
                 else
                 {
@@ -160,7 +165,7 @@ namespace BigScreenInteraction
                 }
             }
 
-            for (int i = 4; i >= 0; i++)
+            for (int i = HandsStateList.Count-1; i >= 0; i--)
             {
                 HandsState temp = (HandsState)HandsStateList[i];
                 if (temp.operation == maxOperation)
@@ -172,21 +177,46 @@ namespace BigScreenInteraction
             return null;
         }
 
+        private static void cal_ave()
+        {
+            float sumX = 0;
+            float sumY = 0;
+            for (int i = 0; i < HandsStateList.Count; i++)
+            {
+                HandsState temp = (HandsState)HandsStateList[i];
+                sumX += temp.selectWrist.X;
+                sumY += temp.selectWrist.Y;  
+            }
+            if (!start)
+            {
+                start = true;
+                nx = sumX / HandsStateList.Count;
+                ny = sumY / HandsStateList.Count;
+                bx = nx;
+                by = ny;
+            }
+            else
+            {
+                bx = nx;
+                by = ny;
+                nx = sumX / HandsStateList.Count;
+                ny = sumY / HandsStateList.Count;
+            }
+
+        }
+
         public static void Mouse_Driver(Body body)
         {
+            cal_ave();
             if (nowHand != null)
             {
                 beforeHands = nowHand;
-                if (HandsStateList.Count < STATE_RECORD_NUM)
-                {
-                    nowHand = new HandsState(body);
-                }
-                else
+                if (HandsStateList.Count >= STATE_RECORD_NUM)
                 {
                     HandsStateList.RemoveAt(0);
-                    HandsStateList.Add(new HandsState(body));
-                    nowHand = findState();
                 }
+                HandsStateList.Add(new HandsState(body));
+                nowHand = findState();
             }
             else
             {
@@ -198,7 +228,8 @@ namespace BigScreenInteraction
             if (nowHand.operation == Operation.no_operation)
             {
                 StateClear();
-                Console.WriteLine("no operation");
+                MouseControl.SetCursorPos(screenWidth / 2, screenHeight / 2);
+                //Console.WriteLine("no operation");
             }
             else if (nowHand.operation == Operation.left_down)
             {
@@ -288,7 +319,7 @@ namespace BigScreenInteraction
             private HandState RightHandState;
             private HandPositionZ SelectHandPosition;
             private HandState SelectHandState;
-          
+
 
             public HandsState(Body body)
             {
@@ -376,7 +407,7 @@ namespace BigScreenInteraction
                             {
                                 operation = Operation.right_down;
                             }
-                            
+
                         }
                         else
                         {
@@ -417,7 +448,7 @@ namespace BigScreenInteraction
                         {
                             operation = Operation.middle_down;
                         }
-                           
+
                     }
                     //one hand closed 
                     else if (LeftHandState == HandState.Closed || RightHandState == HandState.Closed)

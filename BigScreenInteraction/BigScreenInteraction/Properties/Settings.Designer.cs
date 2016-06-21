@@ -49,7 +49,7 @@ namespace BigScreenInteraction.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3.5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public float MouseSensitivity {
             get {
                 return ((float)(this["MouseSensitivity"]));
