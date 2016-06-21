@@ -57,11 +57,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DollarOneGR.cs" />
-    <Compile Include="NBestList.cs" />
-    <Compile Include="SkeletonData.cs" />
-    <Compile Include="Unistroke.cs" />
-    <Compile Include="Vector3.cs" />
     <Page Include="Control\Block.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -80,8 +75,6 @@
     </Compile>
     <Compile Include="Control\Block.xaml.cs" />
     <Compile Include="Control\LoadingAnimation.xaml.cs" />
-    <Compile Include="GestureRecognizer.cs" />
-    <Compile Include="GRPoint.cs" />
     <Compile Include="KinectControl.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -120,14 +120,14 @@ namespace BigScreenInteraction
 
         private static void move()
         {
-            float x = nowHand.selectHand.X - nowHand.spineBase.X + 0.05f;
-            float y = nowHand.spineBase.Y - nowHand.selectHand.Y + 0.51f;
+            float dx = nowHand.selectWrist.X - beforeHands.selectWrist.X;
+            float dy = nowHand.selectWrist.Y - beforeHands.selectWrist.Y;
             // get current cursor position
             Point curPos = MouseControl.GetCursorPosition();
             // smoothing for using should be 0 - 0.95f. The way we smooth the cusor is: oldPos + (newPos - oldPos) * smoothValue
             float smoothing = 1 - cursor_smoothing;
             // set cursor position
-            MouseControl.SetCursorPos((int)(curPos.X + (x * mouse_sensity * screenWidth - curPos.X) * smoothing), (int)(curPos.Y + ((y + 0.25f) * mouse_sensity * screenHeight - curPos.Y) * smoothing));
+            MouseControl.SetCursorPos((int)(curPos.X + (dx * mouse_sensity * screenWidth - curPos.X) * smoothing), (int)(curPos.Y + (dy * mouse_sensity * screenHeight - curPos.Y) * smoothing));
 
         }
 
@@ -271,8 +271,16 @@ namespace BigScreenInteraction
 
         class HandsState
         {
+            //read file
             private const float TOUCH_REGION = 0.15f;
             private const float EMBED_REGION = 0.35f;
+
+            //for move
+            public CameraSpacePoint selectWrist;
+            //for compare
+            public Operation operation;
+            //for wheel
+            public int primeHandy;
 
             private HandPositionZ LeftHandPosition;
             private HandPositionZ RightHandPosition;
@@ -280,15 +288,7 @@ namespace BigScreenInteraction
             private HandState RightHandState;
             private HandPositionZ SelectHandPosition;
             private HandState SelectHandState;
-            //for move
-            // public CameraSpacePoint selectHand;
-            //change whist
-            public CameraSpacePoint selectHand;
-            public CameraSpacePoint spineBase;
-            //for compare
-            public Operation operation;
-            //for wheel
-            public int primeHandy;
+          
 
             public HandsState(Body body)
             {
@@ -296,18 +296,20 @@ namespace BigScreenInteraction
                 CameraSpacePoint handRight = body.Joints[JointType.HandRight].Position;
                 CameraSpacePoint wristLeft = body.Joints[JointType.WristLeft].Position;
                 CameraSpacePoint wristRight = body.Joints[JointType.WristRight].Position;
-                spineBase = body.Joints[JointType.SpineBase].Position;
+                CameraSpacePoint spineBase = body.Joints[JointType.SpineBase].Position;
+                //for move
+                selectWrist = body.Joints[JointType.SpineBase].Position;
 
                 //select wrist
                 if (prime_hand)
                 {
-                    selectHand = wristRight;
+                    selectWrist = wristRight;
                 }
                 else
                 {
-                    selectHand = wristLeft;
+                    selectWrist = wristLeft;
                 }
-                primeHandy = (int)(selectHand.Y * 100);
+                primeHandy = (int)(selectWrist.Y * 100);
                 //set left hand position
                 if (spineBase.Z - handLeft.Z > EMBED_REGION)
                 {
@@ -350,14 +352,14 @@ namespace BigScreenInteraction
                     //left hand operate
                     if (LeftHandPosition != HandPositionZ.UNKNOW)
                     {
-                        selectHand = wristLeft;
+                        selectWrist = wristLeft;
                         SelectHandPosition = LeftHandPosition;
                         SelectHandState = LeftHandState;
                     }
                     //right hand operate
                     else
                     {
-                        selectHand = wristRight;
+                        selectWrist = wristRight;
                         SelectHandPosition = RightHandPosition;
                         SelectHandState = RightHandState;
                     }

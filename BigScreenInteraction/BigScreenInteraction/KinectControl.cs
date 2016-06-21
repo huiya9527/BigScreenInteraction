@@ -25,7 +25,6 @@ namespace BigScreenInteraction
         /// </summary>
         int screenWidth, screenHeight;
 
-        public DollarOneGR _KGr;
 
         Point lastCurPos = new Point(0, 0);
 
@@ -44,7 +43,6 @@ namespace BigScreenInteraction
             // open the sensor
             sensor.Open();
 
-            _KGr = new DollarOneGR();
         }
 
 
@@ -86,7 +84,6 @@ namespace BigScreenInteraction
                 if (body.IsTracked)
                 {
                     MouseControl.Mouse_Driver(body);
-                    _KGr.Add(skdata);
                 }
             }
         }
