@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -75,6 +76,16 @@
     </Compile>
     <Compile Include="Control\Block.xaml.cs" />
     <Compile Include="Control\LoadingAnimation.xaml.cs" />
+    <Compile Include="GestureRecognizerStart.cs" />
+    <Compile Include="Gesture\Category.cs" />
+    <Compile Include="Gesture\NBestList.cs" />
+    <Compile Include="Gesture\PointR.cs" />
+    <Compile Include="Gesture\ProgressEvent.cs" />
+    <Compile Include="Gesture\Recognizer.cs" />
+    <Compile Include="Gesture\RectangleR.cs" />
+    <Compile Include="Gesture\SizeR.cs" />
+    <Compile Include="Gesture\Unistroke.cs" />
+    <Compile Include="Gesture\Utils.cs" />
     <Compile Include="KinectControl.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

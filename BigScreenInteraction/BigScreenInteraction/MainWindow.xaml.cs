@@ -10,8 +10,8 @@ namespace BigScreenInteraction
     /// </summary>
     public partial class MainWindow : Window
     {
-        KinectControl kinectCtrl = new KinectControl();
 
+        KinectControl kinectCtrl;
         public MainWindow()
         {
             InitializeComponent();
@@ -20,8 +20,7 @@ namespace BigScreenInteraction
         private void GestureButtonClick(object sender, RoutedEventArgs e)
         {
             ButtonGird.Visibility = Visibility.Collapsed;
-            //GestrureDisplayGrid.Visibility = Visibility.Visible;
-            //GestureImage.Source = null;
+            GestrureDisplayGrid.Visibility = Visibility.Visible;
         }
         //启动姿势识别界面 
         private void PostureButtonClick(object sender, RoutedEventArgs e)
@@ -35,12 +34,7 @@ namespace BigScreenInteraction
         {
             Application.Current.Shutdown(0);
         }
-        //用于设置程序始终在最上层
-        public void setFullScreen(object sender, EventArgs e)
-        {
-            Window window = (Window)sender;
-            window.Topmost = true;
-        }
+        
         //启动用户3D地图,这里用画图程序替代，但是不好操作！如何退出？
         private void Map_3D(object sender, RoutedEventArgs e)
         {
@@ -68,6 +62,11 @@ namespace BigScreenInteraction
             catch
             {
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            kinectCtrl = new KinectControl(this);
         }
     }
 

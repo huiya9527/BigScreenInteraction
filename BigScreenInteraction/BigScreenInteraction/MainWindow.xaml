@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BigScreenInteraction"
         xmlns:control="clr-namespace:LoadingControl.Control"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True"  WindowStyle="None" Background="{x:Null}"  AllowsTransparency="true" WindowState="Maximized" >
+        Title="MainWindow" Height="800" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True"  WindowStyle="None" Background="{x:Null}"  AllowsTransparency="true" WindowState="Maximized" Loaded="Window_Loaded" >
     <Grid Height="800" Width="1000" VerticalAlignment="Center" HorizontalAlignment="Center">
         <UniformGrid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="60,120" Columns="3" Rows="3" Name="ButtonGird" Background="White">
             <UniformGrid.Resources>
@@ -43,39 +43,40 @@
             </Button>
         </UniformGrid>
 
-        <Grid Name="GestrureDisplayGrid" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <UniformGrid Columns="10" Rows="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20" Background="White">
-                <Grid Margin="10">
+        <Grid Name="GestrureDisplayGrid" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="60,120,60,570" Background="White">
+            <UniformGrid Name ="GestureCollection" Columns="10" Rows="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20" Background="White">
+                <Grid Margin="10" Name="caret">
                     <Image Source="pictures/gestures/Caret.png" Height="50" Width="64" Stretch="UniformToFill" />
                 </Grid>
-                <Grid  Margin="10">
+                <Grid  Margin="10" Name="check">
                     <Image Source="pictures/gestures/Check.png" Height="50" Width="64" Stretch="UniformToFill" />
                 </Grid>
-                <Grid  Margin="10">
+                <Grid  Margin="10" Name="circle">
                     <Image Source="pictures/gestures/Circle.png"  Height="50" Width="64" Stretch="UniformToFill"/>
                 </Grid>
-                <Grid  Margin="10">
+                <Grid  Margin="10" Name="delete">
                     <Image Source="pictures/gestures/Delete.png" Height="50" Width="64" Stretch="UniformToFill" />
                 </Grid>
-                <Grid  Margin="10">
+                <Grid  Margin="10" Name="lightning">
                     <Image Source="pictures/gestures/Lightning.png"  Height="50" Width="64" Stretch="UniformToFill"/>
                 </Grid>
-                <Grid  Margin="10">
+                <Grid  Margin="10" Name="pigtail">
                     <Image Source="pictures/gestures/Pigtail.png" Height="50" Width="64" Stretch="UniformToFill" />
                 </Grid>
-                <Grid  Margin="10">
+                <Grid  Margin="10" Name="question">
                     <Image Source="pictures/gestures/Question_mark.png"  Height="50" Width="64" Stretch="UniformToFill"/>
                 </Grid>
-                <Grid  Margin="10">
+                <Grid  Margin="10" Name="rectangle">
                     <Image Source="pictures/gestures/Rectangle.png"  Height="50" Width="64" Stretch="UniformToFill"/>
                 </Grid>
-                <Grid  Margin="10">
+                <Grid  Margin="10" Name="triangle">
                     <Image Source="pictures/gestures/Triangle.png"  Height="50" Width="64" Stretch="UniformToFill"/>
                 </Grid>
-                <Grid  Margin="10">
+                <Grid  Margin="10" Name="x">
                     <Image Source="pictures/gestures/X.png" Height="50" Width="64" Stretch="UniformToFill" />
                 </Grid>
             </UniformGrid>
+            <Canvas Name="m_canvas" Margin="270,164,310,-354" Width="300" Height="300"/>
         </Grid>
 
         <Grid Name="PostureDisplayGrid" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">

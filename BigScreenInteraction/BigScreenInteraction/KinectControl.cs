@@ -3,6 +3,7 @@ using System.Windows;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 using Microsoft.Kinect;
+using System.Windows.Controls;
 
 namespace BigScreenInteraction
 {
@@ -27,8 +28,9 @@ namespace BigScreenInteraction
 
 
         Point lastCurPos = new Point(0, 0);
+        GestureRecognizerStart grs;
 
-        public KinectControl()
+        public KinectControl(Window parent)
         {
             // get Active Kinect Sensor
             sensor = KinectSensor.GetDefault();
@@ -39,12 +41,11 @@ namespace BigScreenInteraction
             // get screen with and height
             screenWidth = (int)SystemParameters.PrimaryScreenWidth;
             screenHeight = (int)SystemParameters.PrimaryScreenHeight;
+            grs = new GestureRecognizerStart(parent);
 
             // open the sensor
             sensor.Open();
-
         }
-
 
         /// <summary>
         /// Read body frames
@@ -83,7 +84,9 @@ namespace BigScreenInteraction
                 // get first tracked body only, notice there's a break below.
                 if (body.IsTracked)
                 {
-                    MouseControl.Mouse_Driver(body);
+
+                    //MouseControl.Mouse_Driver(body);
+                    grs.recoginze(body);
                 }
             }
         }
