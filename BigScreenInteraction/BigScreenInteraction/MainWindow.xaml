@@ -80,23 +80,23 @@
         </Grid>
 
         <Grid Name="PostureDisplayGrid" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <UniformGrid Columns="6" Rows="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20" Background="White">
-                <Grid Margin="10">
+            <UniformGrid  Name ="PostureCollection" Columns="6" Rows="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20" Background="White">
+                <Grid Margin="10" Name="pic0">
                     <Image Source="pictures/postures/0.png" Height="90" Width="64" Stretch="UniformToFill" />
                 </Grid>
-                <Grid Margin="10">
+                <Grid Margin="10" Name="pic1">
                     <Image Source="pictures/postures/1.png" Height="90" Width="64" Stretch="UniformToFill" />
                 </Grid>
-                <Grid Margin="10">
+                <Grid Margin="10" Name="pic2">
                     <Image Source="pictures/postures/2.png" Height="90" Width="64" Stretch="UniformToFill" />
                 </Grid>
-                <Grid Margin="10">
+                <Grid Margin="10" Name="pic3">
                     <Image Source="pictures/postures/3.png" Height="90" Width="64" Stretch="UniformToFill"/>
                 </Grid>
-                <Grid Margin="10">
+                <Grid Margin="10" Name="pic4">
                     <Image Source="pictures/postures/4.png" Height="90" Width="64" Stretch="UniformToFill" />
                 </Grid>
-                <Grid Margin="10">
+                <Grid Margin="10" Name="pic5">
                     <Image Source="pictures/postures/5.png" Height="90" Width="64" Stretch="UniformToFill"/>
                 </Grid>
             </UniformGrid>

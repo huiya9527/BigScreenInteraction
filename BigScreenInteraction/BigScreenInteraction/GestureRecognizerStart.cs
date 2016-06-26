@@ -17,7 +17,9 @@ namespace BigScreenInteraction
 {
     class GestureRecognizerStart
     {
+        //TODO:
         bool primeHand = true;
+
         private Recognizer.Dollar.Recognizer _rec;
         private bool start = false;
         private ArrayList _points;
@@ -28,15 +30,12 @@ namespace BigScreenInteraction
         public GestureRecognizerStart(Window parent)
         {
             _m_canvas = FindVisualChild<Canvas>(parent, "m_canvas");
-            
             _GestureCollection = FindVisualChild<UniformGrid>(parent, "GestureCollection");
             _rec = new Recognizer.Dollar.Recognizer();
             _points = new ArrayList(256);
             LoadGestureFiles();
         }
-
-       
-
+      
         private void LoadGestureFiles()
         {
             String path = @"GesturesRecord\";

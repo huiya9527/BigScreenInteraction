@@ -29,6 +29,7 @@ namespace BigScreenInteraction
 
         Point lastCurPos = new Point(0, 0);
         GestureRecognizerStart grs;
+        PostureRecognizerStart prs;
 
         public KinectControl(Window parent)
         {
@@ -42,6 +43,7 @@ namespace BigScreenInteraction
             screenWidth = (int)SystemParameters.PrimaryScreenWidth;
             screenHeight = (int)SystemParameters.PrimaryScreenHeight;
             grs = new GestureRecognizerStart(parent);
+            prs = new PostureRecognizerStart(parent);
 
             // open the sensor
             sensor.Open();
@@ -84,9 +86,12 @@ namespace BigScreenInteraction
                 // get first tracked body only, notice there's a break below.
                 if (body.IsTracked)
                 {
-
+                    //鼠标控制
                     //MouseControl.Mouse_Driver(body);
+                    //动作识别
                     grs.recoginze(body);
+                    //姿势识别
+                    prs.recoginze(body);
                 }
             }
         }

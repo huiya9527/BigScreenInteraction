@@ -26,7 +26,7 @@ namespace BigScreenInteraction
         private void PostureButtonClick(object sender, RoutedEventArgs e)
         {
             ButtonGird.Visibility = Visibility.Collapsed;
-            //PostureDisplayGrid.Visibility = Visibility.Visible;
+            PostureDisplayGrid.Visibility = Visibility.Visible;
             //PostureImage.Source = null;
         }
         //离开按钮
@@ -41,8 +41,6 @@ namespace BigScreenInteraction
             ButtonGird.Visibility = Visibility.Collapsed;
             try
             {
-                //_WBFramework._GRRecognizer.TUIO_MOUSE = true;
-                //var drawing = ConfigurationManager.AppSettings["drawing"];
                 var drawing = ConfigurationManager.AppSettings["drawing"];
                 ProcessHandler.process1 = Process.Start(drawing);
 
@@ -55,7 +53,6 @@ namespace BigScreenInteraction
             ButtonGird.Visibility = Visibility.Collapsed;
             try
             {
-                //_WBFramework._GRRecognizer.TUIO_MOUSE = true;
                 var notepad = ConfigurationManager.AppSettings["notepad"];
                 ProcessHandler.process2 = Process.Start(notepad);
             }
