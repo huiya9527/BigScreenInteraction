@@ -76,7 +76,7 @@
     </Compile>
     <Compile Include="Control\Block.xaml.cs" />
     <Compile Include="Control\LoadingAnimation.xaml.cs" />
-    <Compile Include="GestureRecognizerStart.cs" />
+    <Compile Include="Gesture\GestureRecognizerStart.cs" />
     <Compile Include="Gesture\Category.cs" />
     <Compile Include="Gesture\NBestList.cs" />
     <Compile Include="Gesture\PointR.cs" />
@@ -94,7 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MouseControl.cs" />
-    <Compile Include="PostureRecognizerStart.cs" />
+    <Compile Include="Posture\PostureEventArgs.cs" />
+    <Compile Include="Posture\PostureRecognizerStart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

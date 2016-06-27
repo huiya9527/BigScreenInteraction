@@ -79,8 +79,8 @@
             <Canvas Name="m_canvas" Margin="270,164,310,-354" Width="300" Height="300"/>
         </Grid>
 
-        <Grid Name="PostureDisplayGrid" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <UniformGrid  Name ="PostureCollection" Columns="6" Rows="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20" Background="White">
+        <Grid Name="PostureDisplayGrid" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="93,60,130,325" Width="777">
+            <UniformGrid  Name ="PostureCollection" Columns="6" Rows="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20" Background="White" Width="777">
                 <Grid Margin="10" Name="pic0">
                     <Image Source="pictures/postures/0.png" Height="90" Width="64" Stretch="UniformToFill" />
                 </Grid>

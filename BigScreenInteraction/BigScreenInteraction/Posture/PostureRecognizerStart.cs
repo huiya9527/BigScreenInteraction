@@ -25,6 +25,16 @@ namespace BigScreenInteraction
         private const double propertion1 = 0.179 / 0.143;
         private const double propertion2 = 0.164 / 0.179;
 
+        public event PostureEventHandler postureEventHandler;
+        protected void AppendEvent(PostureEventHandler peh, PostureEventArgs args)
+        {
+            if (peh != null)
+            {
+                peh(this, args);
+            }
+        }
+
+
         private static UniformGrid _PostureCollection;
 
         public PostureRecognizerStart(Window parent)
@@ -38,6 +48,7 @@ namespace BigScreenInteraction
             float[] code = CalculateHashNumber(body);
             int num = SelectPoster(code);
             select_posture("pic"+num.ToString());
+            AppendEvent(postureEventHandler, new PostureEventArgs(num.ToString()));
         }
 
         private void select_posture(String name)
