@@ -134,7 +134,6 @@ namespace BigScreenInteraction
                     temp += code[i].ToString();
                     temp += " ";
                 }
-                Console.WriteLine(temp);
             }
             return code;
         }
@@ -201,7 +200,6 @@ namespace BigScreenInteraction
                 {
                     templates[i][j] = Convert.ToSingle(strs[j]);
                 }
-
             }
         }
     }

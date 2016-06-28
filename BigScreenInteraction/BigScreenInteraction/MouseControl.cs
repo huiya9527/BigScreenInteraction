@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Kinect;
 using System.Collections;
 using System.Collections.Generic;
+using CursorControlLibrary;
 
 namespace BigScreenInteraction
 {
@@ -21,19 +22,29 @@ namespace BigScreenInteraction
         private static HandsState nowHand;
         private static ArrayList HandsStateList = new ArrayList();
 
-        private static float bx = 0;
-        private static float by = 0;
-        private static float nx = 0;
-        private static float ny = 0;
+        public static HandCursorVisualizer cursor = new HandCursorVisualizer();
+
+        private static float lbx = 0;
+        private static float lby = 0;
+        private static float lnx = 0;
+        private static float lny = 0;
+        private static int lx = 0;
+        private static int ly = 0;
+
+        private static float rbx = 0;
+        private static float rby = 0;
+        private static float rnx = 0;
+        private static float rny = 0;
+        private static int rx = 0;
+        private static int ry = 0;
+
         private static bool start = false;
 
         private const int STATE_RECORD_NUM = 10;
         private static int wheeldy = 0;
 
-
         private static int screenWidth = (int)SystemParameters.PrimaryScreenWidth;
         private static int screenHeight = (int)SystemParameters.PrimaryScreenHeight;
-
 
         private static void MouseLeftDown()
         {
@@ -124,7 +135,7 @@ namespace BigScreenInteraction
             }
         }
 
-        private static void move()
+        private static void move(float nx, float ny, float bx, float by, bool mouse, bool leftHand)
         {
             float dx = nx - bx;
             float dy = ny - by;
@@ -133,7 +144,37 @@ namespace BigScreenInteraction
             // smoothing for using should be 0 - 0.95f. The way we smooth the cusor is: oldPos + (newPos - oldPos) * smoothValue
             float smoothing = 1 - cursor_smoothing;
             // set cursor position
-            MouseControl.SetCursorPos((int)(curPos.X + (dx * mouse_sensity * screenWidth) * smoothing), (int)(curPos.Y - (dy * mouse_sensity * screenHeight) * smoothing));
+            
+            if (leftHand)
+            {
+                lx = (int)(lx + (dx * mouse_sensity * screenWidth) * smoothing);
+                ly = (int)(ly - (dy * mouse_sensity * screenHeight) * smoothing);
+                if (lx < 0) lx = 0;
+                if (lx > screenWidth) lx = screenWidth;
+                if (ly < 0) ly = 0;
+                if (ly > screenHeight) ly = screenHeight;
+                nowHand.input._dx = lx;
+                nowHand.input._dy = ly;
+                if (!mouse)
+                {
+                    MouseControl.SetCursorPos(lx, ly);
+                }
+            }
+            else
+            {
+                rx = (int)(rx + (dx * mouse_sensity * screenWidth) * smoothing);
+                ry = (int)(ry - (dy * mouse_sensity * screenHeight) * smoothing);
+                if (rx < 0) rx = 0;
+                if (rx > screenWidth) rx = screenWidth;
+                if (ry < 0) ry = 0;
+                if (ry > screenHeight) ry = screenHeight;
+                nowHand.input._dx1 = rx;
+                nowHand.input._dy1 = ry;
+                if (mouse)
+                {
+                    MouseControl.SetCursorPos(rx, ry);
+                }
+            }
         }
 
         private static HandsState findState()
@@ -177,15 +218,24 @@ namespace BigScreenInteraction
             return null;
         }
 
-        private static void cal_ave()
+        private static void cal_ave(ref float nx, ref float ny, ref float bx, ref float by, bool isRight)
         {
             float sumX = 0;
             float sumY = 0;
             for (int i = 0; i < HandsStateList.Count; i++)
             {
                 HandsState temp = (HandsState)HandsStateList[i];
-                sumX += temp.selectWrist.X;
-                sumY += temp.selectWrist.Y;  
+                if (isRight)
+                {
+                    sumX += temp.wristRight.X;
+                    sumY += temp.wristRight.Y;
+                }
+                else
+                {
+                    sumX += temp.wristLeft.X;
+                    sumY += temp.wristLeft.Y;
+                }
+                  
             }
             if (!start)
             {
@@ -207,7 +257,9 @@ namespace BigScreenInteraction
 
         public static void Mouse_Driver(Body body)
         {
-            cal_ave();
+            cal_ave(ref lnx, ref lny, ref lbx, ref lby, false);
+            cal_ave(ref rnx, ref rny, ref rbx, ref rby, true);
+
             if (nowHand != null)
             {
                 beforeHands = nowHand;
@@ -224,16 +276,22 @@ namespace BigScreenInteraction
                 nowHand = new HandsState(body);
                 HandsStateList.Add(nowHand);
             }
+            
             //operation start
             if (nowHand.operation == Operation.no_operation)
             {
                 StateClear();
                 MouseControl.SetCursorPos(screenWidth / 2, screenHeight / 2);
-                //Console.WriteLine("no operation");
+                lx = rx  = screenWidth / 2;
+                ly = ry = screenHeight / 2;
+
             }
             else if (nowHand.operation == Operation.left_down)
             {
-                move();
+                //left
+                move(lnx,lny, lbx, lby, nowHand.isRight , true);
+                //right
+                move(rnx, rny, rbx, rby, nowHand.isRight , false);
                 if (beforeHands.operation == Operation.left_down)
                 {
                     return;
@@ -250,7 +308,10 @@ namespace BigScreenInteraction
             }
             else if (nowHand.operation == Operation.middle_down)
             {
-                move();
+                //left
+                move(lnx, lny, lbx, lby, nowHand.isRight, true);
+                //right
+                move(rnx, rny, rbx, rby, nowHand.isRight, false);
                 if (beforeHands.operation == Operation.left_down)
                 {
                     MouseLeftUp();
@@ -267,7 +328,10 @@ namespace BigScreenInteraction
             }
             else if (nowHand.operation == Operation.right_down)
             {
-                move();
+                //left
+                move(lnx, lny, lbx, lby, nowHand.isRight, true);
+                //right
+                move(rnx, rny, rbx, rby, nowHand.isRight, false);
                 if (beforeHands.operation == Operation.left_down)
                 {
                     MouseLeftUp();
@@ -285,7 +349,10 @@ namespace BigScreenInteraction
             else if (nowHand.operation == Operation.move)
             {
                 StateClear();
-                move();
+                //left
+                move(lnx, lny, lbx, lby, nowHand.isRight, true);
+                //right
+                move(rnx, rny, rbx, rby, nowHand.isRight, false);
             }
             else if (nowHand.operation == Operation.wheel)
             {
@@ -298,6 +365,7 @@ namespace BigScreenInteraction
                 int dy = nowHand.primeHandy - wheeldy;
                 MouseRoll(dy);
             }
+            cursor.UpdateHandCursor(nowHand.input);
         }
 
         class HandsState
@@ -307,11 +375,15 @@ namespace BigScreenInteraction
             private const float EMBED_REGION = 0.35f;
 
             //for move
-            public CameraSpacePoint selectWrist;
+            public CameraSpacePoint wristLeft;
+            public CameraSpacePoint wristRight;
             //for compare
             public Operation operation;
             //for wheel
             public int primeHandy;
+            //for cursor
+            public HandInput input;
+            public bool isRight;
 
             private HandPositionZ LeftHandPosition;
             private HandPositionZ RightHandPosition;
@@ -325,28 +397,33 @@ namespace BigScreenInteraction
             {
                 CameraSpacePoint handLeft = body.Joints[JointType.HandLeft].Position;
                 CameraSpacePoint handRight = body.Joints[JointType.HandRight].Position;
-                CameraSpacePoint wristLeft = body.Joints[JointType.WristLeft].Position;
-                CameraSpacePoint wristRight = body.Joints[JointType.WristRight].Position;
+                wristLeft = body.Joints[JointType.WristLeft].Position;
+                wristRight = body.Joints[JointType.WristRight].Position;
                 CameraSpacePoint spineBase = body.Joints[JointType.SpineBase].Position;
-                //for move
-                selectWrist = body.Joints[JointType.SpineBase].Position;
 
+                input = new HandInput();
+                input.isLeftGrip = (body.HandLeftState == HandState.Closed);
+                input.isRightGrip = (body.HandRightState == HandState.Closed);
+                
                 //select wrist
                 if (prime_hand)
                 {
-                    selectWrist = wristRight;
+                    primeHandy = (int)(wristRight.Y * 100);
+                    isRight = true;
                 }
                 else
                 {
-                    selectWrist = wristLeft;
+                    primeHandy = (int)(wristLeft.Y * 100);
+                    isRight = false;
                 }
-                primeHandy = (int)(selectWrist.Y * 100);
                 //set left hand position
-                if (spineBase.Z - handLeft.Z > EMBED_REGION)
+                float leftDepth = spineBase.Z - handLeft.Z;
+                input._LPressExtent = (leftDepth - TOUCH_REGION) / (EMBED_REGION - TOUCH_REGION) ;
+                if (leftDepth > EMBED_REGION)
                 {
                     LeftHandPosition = HandPositionZ.EMBED;
                 }
-                else if (spineBase.Z - handLeft.Z > TOUCH_REGION)
+                else if (leftDepth > TOUCH_REGION)
                 {
                     LeftHandPosition = HandPositionZ.TOUCH;
                 }
@@ -355,11 +432,13 @@ namespace BigScreenInteraction
                     LeftHandPosition = HandPositionZ.UNKNOW;
                 }
                 //set right hand position
-                if (spineBase.Z - handRight.Z > EMBED_REGION)
+                float rightDepth = spineBase.Z - handRight.Z;
+                input._RPressExtent = (rightDepth -  TOUCH_REGION) / (EMBED_REGION - TOUCH_REGION);
+                if (rightDepth > EMBED_REGION)
                 {
                     RightHandPosition = HandPositionZ.EMBED;
                 }
-                else if (spineBase.Z - handRight.Z > TOUCH_REGION)
+                else if (rightDepth > TOUCH_REGION)
                 {
                     RightHandPosition = HandPositionZ.TOUCH;
                 }
@@ -376,6 +455,7 @@ namespace BigScreenInteraction
                 if (LeftHandPosition == HandPositionZ.UNKNOW && RightHandPosition == HandPositionZ.UNKNOW)
                 {
                     operation = Operation.no_operation;
+                    input._isWhich = 0;
                 }
                 //single hand
                 else if (LeftHandPosition == HandPositionZ.UNKNOW || RightHandPosition == HandPositionZ.UNKNOW)
@@ -383,16 +463,18 @@ namespace BigScreenInteraction
                     //left hand operate
                     if (LeftHandPosition != HandPositionZ.UNKNOW)
                     {
-                        selectWrist = wristLeft;
                         SelectHandPosition = LeftHandPosition;
                         SelectHandState = LeftHandState;
+                        input._isWhich = 1;
+                        isRight = false;
                     }
                     //right hand operate
                     else
                     {
-                        selectWrist = wristRight;
                         SelectHandPosition = RightHandPosition;
                         SelectHandState = RightHandState;
+                        input._isWhich = 2;
+                        isRight = true;
                     }
                     //single hand touch region
                     if (SelectHandPosition == HandPositionZ.TOUCH)
@@ -434,10 +516,10 @@ namespace BigScreenInteraction
                         }
                     }
                 }
-                //two hand the prime hand is right
                 else
                 {
                     //two hand closed will operate wheel
+                    input._isWhich = 3;
                     if (LeftHandState == HandState.Closed && RightHandState == HandState.Closed)
                     {
                         if (middle_button_and_wheel)

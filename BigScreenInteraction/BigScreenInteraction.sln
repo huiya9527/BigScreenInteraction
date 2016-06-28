@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigScreenInteraction", "BigScreenInteraction\BigScreenInteraction.csproj", "{D05BCDE8-F31E-48E6-B1E1-BACCB5BC1F98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CursorControlLibrary", "..\..\BigScreen1.0\WpfApplication\CursorControlLibrary\CursorControlLibrary.csproj", "{725D989D-3128-4133-A66B-B80C91C1D9FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D05BCDE8-F31E-48E6-B1E1-BACCB5BC1F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D05BCDE8-F31E-48E6-B1E1-BACCB5BC1F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D05BCDE8-F31E-48E6-B1E1-BACCB5BC1F98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{725D989D-3128-4133-A66B-B80C91C1D9FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{725D989D-3128-4133-A66B-B80C91C1D9FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{725D989D-3128-4133-A66B-B80C91C1D9FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{725D989D-3128-4133-A66B-B80C91C1D9FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

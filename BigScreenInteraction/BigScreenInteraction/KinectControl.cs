@@ -5,6 +5,7 @@ using System.Windows.Threading;
 using Microsoft.Kinect;
 using System.Windows.Controls;
 
+
 namespace BigScreenInteraction
 {
     class KinectControl
@@ -33,6 +34,7 @@ namespace BigScreenInteraction
         GestureRecognizerStart grs;
         PostureRecognizerStart prs;
 
+
         public KinectControl(GestureRecognizerStart _grs, PostureRecognizerStart _prs)
         {
             // get Active Kinect Sensor
@@ -46,7 +48,7 @@ namespace BigScreenInteraction
             screenHeight = (int)SystemParameters.PrimaryScreenHeight;
             grs = _grs;
             prs = _prs;
-
+           
             // open the sensor
             sensor.Open();
         }
@@ -97,6 +99,7 @@ namespace BigScreenInteraction
                     grs.recoginze(body);
                     //姿势识别
                     prs.recoginze(body);
+                    
                 }
             }
         }

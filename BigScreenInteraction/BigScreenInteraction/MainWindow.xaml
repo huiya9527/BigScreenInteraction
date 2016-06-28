@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:BigScreenInteraction"
         xmlns:control="clr-namespace:LoadingControl.Control"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1000" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True"  WindowStyle="None" Background="{x:Null}"  AllowsTransparency="true" WindowState="Maximized" Loaded="Window_Loaded" >
-    <Grid Height="800" Width="1000" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <UniformGrid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="60,120" Columns="3" Rows="3" Name="ButtonGird" Background="White">
+        Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True"  WindowStyle="None" Background="{x:Null}"  AllowsTransparency="true" WindowState="Maximized" Loaded="Window_Loaded" >
+    <Grid Name="full_screen" Height="1080" Width="1920" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <UniformGrid Height="800" Width="1000" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Columns="3" Rows="3" Name="ButtonGird" Background="White">
             <UniformGrid.Resources>
                 <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
                     <Setter Property="Margin" Value="15,10,15,10"/>

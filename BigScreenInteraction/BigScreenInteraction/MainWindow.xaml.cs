@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using LoadingControl.Control;
 using System.Threading;
 using System.Management;
+using CursorControlLibrary;
 
 namespace BigScreenInteraction
 {
@@ -29,6 +30,7 @@ namespace BigScreenInteraction
         {
             InitializeComponent();
             
+
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -36,6 +38,8 @@ namespace BigScreenInteraction
             prs = new PostureRecognizerStart(this);
             prs.postureEventHandler += new PostureEventHandler(this.OnPostureEvent);
             kinectCtrl = new KinectControl(grs, prs);
+            HandCursorVisualizer HCV = MouseControl.cursor;
+            full_screen.Children.Add(HCV);
         }
 
         //启动手势识别界面
