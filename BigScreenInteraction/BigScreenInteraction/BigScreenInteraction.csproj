@@ -153,7 +153,7 @@
     <Resource Include="pictures\postures\5.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BigScreen1.0\WpfApplication\CursorControlLibrary\CursorControlLibrary.csproj">
+    <ProjectReference Include="..\CursorControlLibrary\CursorControlLibrary.csproj">
       <Project>{725d989d-3128-4133-a66b-b80c91c1d9fb}</Project>
       <Name>CursorControlLibrary</Name>
     </ProjectReference>

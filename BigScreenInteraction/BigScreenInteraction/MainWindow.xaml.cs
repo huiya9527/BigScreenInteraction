@@ -26,11 +26,10 @@ namespace BigScreenInteraction
         GestureRecognizerStart grs;
         PostureRecognizerStart prs;
         private Timer timer;
+        HandCursorVisualizer HCV;
         public MainWindow()
         {
             InitializeComponent();
-            
-
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -38,7 +37,7 @@ namespace BigScreenInteraction
             prs = new PostureRecognizerStart(this);
             prs.postureEventHandler += new PostureEventHandler(this.OnPostureEvent);
             kinectCtrl = new KinectControl(grs, prs);
-            HandCursorVisualizer HCV = MouseControl.cursor;
+            HCV = MouseControl.cursor;
             full_screen.Children.Add(HCV);
         }
 
@@ -47,6 +46,7 @@ namespace BigScreenInteraction
         {
             ButtonGird.Visibility = Visibility.Collapsed;
             GestrureDisplayGrid.Visibility = Visibility.Visible;
+            HCV.Visibility = Visibility.Collapsed;
             kinectCtrl.control_mouse = false;
         }
         //启动姿势识别界面 
@@ -54,6 +54,7 @@ namespace BigScreenInteraction
         {
             ButtonGird.Visibility = Visibility.Collapsed;
             PostureDisplayGrid.Visibility = Visibility.Visible;
+            HCV.Visibility = Visibility.Collapsed;
             kinectCtrl.control_mouse = false;
         }
         //离开按钮
@@ -141,11 +142,19 @@ namespace BigScreenInteraction
                      }
                 )
             );
+            this.HCV.Dispatcher.Invoke(
+                new Action(
+                     delegate
+                     {
+                         this.HCV.Visibility = Visibility.Visible;
+                     }
+                )
+            );
+
             if (ProcessHandler.process1 != null)
             {
                 ProcessHandler.process1.Kill();
                 ProcessHandler.process1 = null;
-
             }
 
             if (ProcessHandler.process2 != null)

@@ -294,7 +294,7 @@ namespace BigScreenInteraction
                 move(rnx, rny, rbx, rby, nowHand.isRight , false);
                 if (beforeHands.operation == Operation.left_down)
                 {
-                    return;
+                    //return;
                 }
                 else if (beforeHands.operation == Operation.middle_down)
                 {
